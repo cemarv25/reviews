@@ -1,4 +1,7 @@
 import { createClient, PostgrestError } from '@supabase/supabase-js';
+import { Restaurant } from '../types/restaurant';
+
+const RESTAURANTS_TABLE = 'restaurants';
 
 export const getSupabase = () => {
   return createClient(
@@ -7,6 +10,8 @@ export const getSupabase = () => {
   );
 };
 
+const supabase = getSupabase();
+
 export const isPostgrestError = (error: any): error is PostgrestError => {
   return (
     'message' in error &&
@@ -14,4 +19,54 @@ export const isPostgrestError = (error: any): error is PostgrestError => {
     'hint' in error &&
     'code' in error
   );
+};
+
+export const getAllRestaurants = async () => {
+  try {
+    const { data, error } = await supabase.from('restaurants').select('*');
+    if (error) throw error;
+
+    return data;
+  } catch (e) {
+    console.error(e);
+    if (isPostgrestError(e)) {
+      alert(e.message);
+    }
+  }
+};
+
+export const createRestaurant = async (restaurantInfo: Restaurant) => {
+  try {
+    const { data, error } = await supabase
+      .from(RESTAURANTS_TABLE)
+      .insert(restaurantInfo)
+      .single();
+
+    if (error) throw error;
+
+    return data;
+  } catch (e) {
+    console.error(e);
+    if (isPostgrestError(e)) {
+      alert(e.message);
+    }
+  }
+};
+
+export const deleteRestaurantById = async (restaurantId: number) => {
+  try {
+    const { data, error } = await supabase
+      .from(RESTAURANTS_TABLE)
+      .delete()
+      .eq('id', restaurantId);
+
+    if (error) throw error;
+
+    return data;
+  } catch (e) {
+    console.error(e);
+    if (isPostgrestError(e)) {
+      alert(e.message);
+    }
+  }
 };

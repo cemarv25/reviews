@@ -1,14 +1,56 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { getSupabase, isPostgrestError } from '../utils/supabase';
+import {
+  getSupabase,
+  isPostgrestError,
+  createRestaurant,
+  deleteRestaurantById,
+  getAllRestaurants,
+} from '../utils/supabase';
 import type { Restaurant } from '../types/restaurant';
 import styles from '../styles/Home.module.css';
+import { ChangeEvent, MouseEvent, useState } from 'react';
 
 interface HomeProps {
   restaurants: Array<Restaurant>;
 }
 
+interface RestaurantState {
+  name: string;
+  type: string;
+  description: string;
+}
+
 const Home: NextPage<HomeProps> = ({ restaurants }) => {
+  const [restaurantInfo, setRestautantInfo] = useState<RestaurantState>({
+    name: '',
+    type: '',
+    description: '',
+  });
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setRestautantInfo((prevInfo) => {
+      const newInfo = { ...prevInfo };
+      const property = e.target.id as keyof RestaurantState;
+
+      newInfo[property] = e.target.value;
+
+      return newInfo;
+    });
+  };
+
+  const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    const _createdRestaurant = await createRestaurant(
+      restaurantInfo as Restaurant
+    );
+  };
+
+  const handleDelete = async (restaurantId: number) => {
+    const _deletedRestaurant = await deleteRestaurantById(restaurantId);
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -18,31 +60,67 @@ const Home: NextPage<HomeProps> = ({ restaurants }) => {
       </Head>
       <main className={styles.main}>
         {restaurants.map((restaurant) => (
-          <div className={styles.card} key={restaurant.id}>
+          <div
+            className={styles.card}
+            style={{ position: 'relative' }}
+            key={restaurant.id}
+          >
+            <span
+              onClick={() => handleDelete(restaurant.id)}
+              style={{
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                padding: '0 0.5rem',
+                cursor: 'pointer',
+              }}
+            >
+              &times;
+            </span>
             <h2>{restaurant.name}</h2>
             <p>{restaurant.description}</p>
           </div>
         ))}
+        <form>
+          <div>
+            <label htmlFor="name">Name</label>
+            <input
+              id="name"
+              type="text"
+              value={restaurantInfo.name}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="type">Type</label>
+            <input
+              id="type"
+              type="text"
+              value={restaurantInfo.type}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="description">Description</label>
+            <input
+              id="description"
+              type="text"
+              value={restaurantInfo.description}
+              onChange={handleInputChange}
+            />
+          </div>
+          <button onClick={handleSubmit}>Create New Restaurant</button>
+        </form>
       </main>
     </div>
   );
 };
 
 export const getServerSideProps = async () => {
-  const supabase = getSupabase();
-  try {
-    const { data, error } = await supabase.from('restaurant').select('*');
-    if (error) throw error;
-
-    return {
-      props: { restaurants: data as Array<Restaurant> },
-    };
-  } catch (e) {
-    console.error(e);
-    if (isPostgrestError(e)) {
-      alert(e.message);
-    }
-  }
+  const restaurants = await getAllRestaurants();
+  return {
+    props: { restaurants },
+  };
 };
 
 export default Home;
