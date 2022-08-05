@@ -1,7 +1,8 @@
 import type { AppProps } from 'next/app';
-import 'antd/dist/antd.variable.min.css';
 import { ConfigProvider } from 'antd';
 import Layout from '../components/layout';
+import 'antd/dist/antd.variable.min.css';
+import '../styles/globals.css';
 
 ConfigProvider.config({
   theme: {
