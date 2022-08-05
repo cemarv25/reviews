@@ -1,7 +1,14 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import Podium from '../components/podium';
+import { Restaurant } from '../types/restaurant';
+import { getTopRestaurants } from '../utils/supabase';
 
-const Home: NextPage = () => {
+interface HomeProps {
+  topRestaurants: Array<Restaurant>;
+}
+
+const Home: NextPage<HomeProps> = ({ topRestaurants }) => {
   return (
     <div>
       <Head>
@@ -10,10 +17,18 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h1>Content</h1>
+        <Podium topRestaurants={topRestaurants} />
       </main>
     </div>
   );
+};
+
+export const getServerSideProps = async () => {
+  const topRestaurants = await getTopRestaurants(3);
+
+  return {
+    props: { topRestaurants },
+  };
 };
 
 export default Home;

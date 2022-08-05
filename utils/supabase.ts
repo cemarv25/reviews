@@ -35,6 +35,21 @@ export const getAllRestaurants = async () => {
   }
 };
 
+export const getTopRestaurants = async (count: number = 5) => {
+  try {
+    const { data, error } = await supabase.from('restaurants').select('*');
+    if (error) throw error;
+
+    data.sort((a, b) => b.grade - a.grade);
+    return data.slice(0, count);
+  } catch (e) {
+    console.error(e);
+    if (isPostgrestError(e)) {
+      alert(e.message);
+    }
+  }
+};
+
 export const createRestaurant = async (restaurantInfo: Restaurant) => {
   try {
     const { data, error } = await supabase

@@ -1,0 +1,47 @@
+.podium {
+  display: flex;
+  background-color: rgb(238, 238, 238);
+  height: 45vh;
+}
+
+.podiumList {
+  display: grid;
+  grid-template-columns: 3;
+  grid-template-rows: 2;
+  width: 50%;
+  padding-top: 5rem;
+}
+
+.podiumList li {
+  list-style: none;
+}
+
+.podiumList li[data-grade]::after {
+  content: attr(data-grade);
+  font-weight: bold;
+  margin: 0 1rem;
+}
+
+.podiumList li[data-place='1'] {
+  grid-column: 2;
+}
+.podiumList li[data-place='1']::before {
+  content: '1';
+  margin-right: 1rem;
+}
+
+.podiumList li[data-place='2'] {
+  grid-column: 1;
+}
+.podiumList li[data-place='2']::before {
+  content: '2';
+  margin-right: 1rem;
+}
+
+.podiumList li[data-place='3'] {
+  grid-column: 3;
+}
+.podiumList li[data-place='3']::before {
+  content: '3';
+  margin-right: 1rem;
+}
