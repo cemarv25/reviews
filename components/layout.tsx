@@ -20,7 +20,7 @@ export default function Layout({ children }: LayoutProps) {
                 layout="responsive"
                 width={70}
                 height={70}
-                src="https://via.placeholder.com/70"
+                src="/dummy.png"
                 alt="logo"
                 style={{ borderRadius: '50%' }}
               />

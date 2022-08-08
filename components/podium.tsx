@@ -1,14 +1,17 @@
-import { Col, Row, Typography } from 'antd';
+import { Grid, Col, Divider, Row, Typography } from 'antd';
 import type { Restaurant } from '../types/restaurant';
 import styles from '../styles/podium.module.css';
 
 const { Title } = Typography;
+const { useBreakpoint } = Grid;
 
 interface PodiumProps {
   topRestaurants: Array<Restaurant>;
 }
 
 export default function Podium({ topRestaurants }: PodiumProps) {
+  const screens = useBreakpoint();
+
   const renderRestaurants = () => {
     return topRestaurants.map((restaurant, idx) => (
       <li
@@ -21,10 +24,22 @@ export default function Podium({ topRestaurants }: PodiumProps) {
     ));
   };
 
+  const renderDivider = () => {
+    if (screens.lg === true) {
+      return (
+        <Col>
+          <Divider style={{ height: '100%' }} type={'vertical'} />
+        </Col>
+      );
+    } else {
+      return <Divider />;
+    }
+  };
+
   return (
     <Row
       justify="center"
-      align="middle"
+      align={screens.lg === true ? 'stretch' : 'middle'}
       gutter={[24, 0]}
       className={styles.podium}
     >
@@ -38,6 +53,7 @@ export default function Podium({ topRestaurants }: PodiumProps) {
           <ol className={styles.podiumList}>{renderRestaurants()}</ol>
         </Col>
       </Col>
+      {renderDivider()}
       <Col xs={24} sm={12} lg={10}>
         <Col>
           <Title level={2} style={{ textAlign: 'center' }}>
