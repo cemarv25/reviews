@@ -12,6 +12,25 @@ export const getSupabase = () => {
 
 const supabase = getSupabase();
 
+export const supabaseQuery = async (
+  table: string,
+  columns: string = '*',
+  count?: number
+) => {
+  try {
+    const { data, error } = await supabase.from(table).select(columns);
+    if (error) throw error;
+    if (count === undefined || count === null) return data;
+
+    return data.slice(0, count);
+  } catch (e) {
+    console.error(e);
+    if (isPostgrestError(e)) {
+      alert(e.message);
+    }
+  }
+};
+
 export const isPostgrestError = (error: any): error is PostgrestError => {
   return (
     'message' in error &&
@@ -21,34 +40,37 @@ export const isPostgrestError = (error: any): error is PostgrestError => {
   );
 };
 
-export const getAllRestaurants = async () => {
-  try {
-    const { data, error } = await supabase.from('restaurants').select('*');
-    if (error) throw error;
-
-    return data;
-  } catch (e) {
-    console.error(e);
-    if (isPostgrestError(e)) {
-      alert(e.message);
-    }
-  }
+export const getAllRestaurants = () => {
+  return supabaseQuery('restaurants');
 };
 
-export const getTopRestaurants = async (count: number = 5) => {
-  try {
-    const { data, error } = await supabase.from('restaurants').select('*');
-    if (error) throw error;
-
-    data.sort((a, b) => b.grade - a.grade);
-    return data.slice(0, count);
-  } catch (e) {
-    console.error(e);
-    if (isPostgrestError(e)) {
-      alert(e.message);
-    }
-  }
+export const getAllRestaurantReviews = () => {
+  return supabaseQuery('restaurant_reviews');
 };
+
+export const getTopRestaurants = (count: number = 5) => {
+  return supabaseQuery('restaurants', '*', count);
+};
+
+// export const getTopRestaurantsBy = async (
+//   property: string,
+//   count: number = 5
+// ) => {
+//   try {
+//     const { data, error } = await supabase
+//       .from('restaurant_reviews')
+//       .select('*');
+//     if (error) throw error;
+
+//     data.sort((a, b) => b[property] - a[property]);
+//     return data.slice(0, count);
+//   } catch (e) {
+//     console.error(e);
+//     if (isPostgrestError(e)) {
+//       alert(e.message);
+//     }
+//   }
+// };
 
 export const createRestaurant = async (restaurantInfo: Restaurant) => {
   try {
