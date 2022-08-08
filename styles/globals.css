@@ -10,6 +10,21 @@
 a.active {
   border-bottom: 2px solid black;
 }
+
+@media screen and (max-width: 575px) {
+  html {
+    /* Reducing base font size will reduce all rem sizes */
+    font-size: 13px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  html {
+    /* Reducing base font size will reduce all rem sizes */
+    font-size: 12px;
+  }
+}
+
 /* 
 @media (prefers-color-scheme: dark) {
   html {
