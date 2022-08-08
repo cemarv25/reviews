@@ -25,7 +25,7 @@ export default function Podium({ topRestaurants }: PodiumProps) {
   };
 
   const renderDivider = () => {
-    if (screens.lg === true) {
+    if (screens.lg) {
       return (
         <Col>
           <Divider style={{ height: '100%' }} type={'vertical'} />
@@ -39,8 +39,7 @@ export default function Podium({ topRestaurants }: PodiumProps) {
   return (
     <Row
       justify="center"
-      align={screens.lg === true ? 'stretch' : 'middle'}
-      gutter={[24, 0]}
+      align={screens.lg ? 'stretch' : 'middle'}
       className={styles.podium}
     >
       <Col xs={24} sm={12} lg={10}>

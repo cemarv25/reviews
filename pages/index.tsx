@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Podium from '../components/podium';
+import TopSection from '../components/topSection';
 import { Restaurant } from '../types/restaurant';
 import { getTopRestaurants } from '../utils/supabase';
 
@@ -18,6 +19,8 @@ const Home: NextPage<HomeProps> = ({ topRestaurants }) => {
       </Head>
       <main>
         <Podium topRestaurants={topRestaurants} />
+        <TopSection title="restaurants" />
+        <TopSection title="dishes" />
       </main>
     </div>
   );
