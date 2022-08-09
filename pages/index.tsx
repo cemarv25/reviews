@@ -5,6 +5,9 @@ import TopSection from '../components/topSection';
 import { Restaurant } from '../types/restaurant';
 import { getTopRestaurants } from '../utils/supabase';
 
+const restaurantCarouselProperties = ['food_type', 'cost'];
+const dishCarouselProperties = ['taste', 'cost'];
+
 interface HomeProps {
   topRestaurants: Array<Restaurant>;
 }
@@ -19,8 +22,16 @@ const Home: NextPage<HomeProps> = ({ topRestaurants }) => {
       </Head>
       <main>
         <Podium topRestaurants={topRestaurants} />
-        <TopSection title="restaurants" />
-        <TopSection title="dishes" />
+        <TopSection
+          title="restaurants"
+          properties={restaurantCarouselProperties}
+          items={topRestaurants}
+        />
+        <TopSection
+          title="dishes"
+          properties={dishCarouselProperties}
+          items={topRestaurants}
+        />
       </main>
     </div>
   );

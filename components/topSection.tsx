@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Row, Col, Typography, Button } from 'antd';
+import Carousel from './carousel';
 
 const { Title } = Typography;
 
@@ -8,22 +9,40 @@ function capitalizeFirstLetter(string: string) {
 }
 
 interface TopSectionProps {
+  properties: Array<string>;
   title: string;
+  items: Array<any>;
 }
 
-export default function TopSection({ title }: TopSectionProps) {
+export default function TopSection({
+  properties,
+  title,
+  items,
+}: TopSectionProps) {
   return (
-    <Row justify="center" align="middle">
-      <Col>
-        <Title level={3}>Top {capitalizeFirstLetter(title)} by:</Title>
+    <Col>
+      <Row justify="center" align="middle">
+        <Col>
+          <Title level={3}>Top {capitalizeFirstLetter(title)} by:</Title>
+        </Col>
+        <Col>
+          <Button type="link">
+            <Link href={`/${title}`}>
+              <a>See all...</a>
+            </Link>
+          </Button>
+        </Col>
+      </Row>
+      <Col offset={0}>
+        {properties.map((property, idx) => (
+          <Carousel
+            key={idx}
+            property={property}
+            items={items}
+            type="restaurant"
+          />
+        ))}
       </Col>
-      <Col>
-        <Button type="link">
-          <Link href={`/${title}`}>
-            <a>See all...</a>
-          </Link>
-        </Button>
-      </Col>
-    </Row>
+    </Col>
   );
 }
