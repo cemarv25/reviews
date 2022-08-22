@@ -1,14 +1,6 @@
-import type { AppProps } from 'next/app';
-import { ConfigProvider } from 'antd';
-import Layout from '../components/layout';
-import 'antd/dist/antd.variable.min.css';
-import '../styles/globals.css';
-
-ConfigProvider.config({
-  theme: {
-    primaryColor: '#e0ca02',
-  },
-});
+import type { AppProps } from "next/app";
+import Layout from "../components/layout";
+import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

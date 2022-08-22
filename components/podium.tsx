@@ -1,17 +1,10 @@
-import { Grid, Col, Divider, Row, Typography } from 'antd';
-import type { Restaurant } from '../types/restaurant';
-import styles from '../styles/podium.module.css';
-
-const { Title } = Typography;
-const { useBreakpoint } = Grid;
+import type { Restaurant } from "../types/restaurant";
 
 interface PodiumProps {
   topRestaurants: Array<Restaurant>;
 }
 
 export default function Podium({ topRestaurants }: PodiumProps) {
-  const screens = useBreakpoint();
-
   const renderRestaurants = () => {
     return topRestaurants.map((restaurant, idx) => (
       <li
@@ -24,45 +17,41 @@ export default function Podium({ topRestaurants }: PodiumProps) {
     ));
   };
 
-  const renderDivider = () => {
-    if (screens.lg) {
-      return (
-        <Col>
-          <Divider style={{ height: '100%' }} type={'vertical'} />
-        </Col>
-      );
-    } else {
-      return <Divider />;
-    }
-  };
+  // const renderDivider = () => {
+  //   if (screens.lg) {
+  //     return (
+  //       <Col>
+  //         <Divider style={{ height: '100%' }} type={'vertical'} />
+  //       </Col>
+  //     );
+  //   } else {
+  //     return <Divider />;
+  //   }
+  // };
 
   return (
-    <Row
-      justify="center"
-      align={screens.lg ? 'stretch' : 'middle'}
-      className={styles.podium}
-    >
-      <Col xs={24} sm={12} lg={10}>
-        <Col>
-          <Title level={2} style={{ textAlign: 'center' }}>
-            Top Restaurants
-          </Title>
-        </Col>
-        <Col>
-          <ol className={styles.podiumList}>{renderRestaurants()}</ol>
-        </Col>
-      </Col>
-      {renderDivider()}
-      <Col xs={24} sm={12} lg={10}>
-        <Col>
-          <Title level={2} style={{ textAlign: 'center' }}>
-            Top Dishes
-          </Title>
-        </Col>
-        <Col>
-          <ol className={styles.podiumList}>{renderRestaurants()}</ol>
-        </Col>
-      </Col>
-    </Row>
+    <div className="flex flex-row items-center justify-center bg-gray-200 lg:items-stretch">
+      <div className="flex basis-full flex-col sm:basis-1/2 lg:basis-5/12">
+        <div className="flex flex-col">
+          <h2 className="text-center">Top Restaurants</h2>
+        </div>
+        <div className="flex flex-col">
+          <ol className="m-0 grid h-full w-full grid-cols-3 grid-rows-2 py-20 px-8">
+            {renderRestaurants()}
+          </ol>
+        </div>
+      </div>
+      {/* {renderDivider()} */}
+      <div className="flex basis-full flex-col sm:basis-1/2 lg:basis-5/12">
+        <div className="flex flex-col">
+          <h2 className="text-center">Top Dishes</h2>
+        </div>
+        <div className="flex flex-col">
+          <ol className="m-0 grid h-full w-full grid-cols-3 grid-rows-2 py-20 px-8">
+            {renderRestaurants()}
+          </ol>
+        </div>
+      </div>
+    </div>
   );
 }

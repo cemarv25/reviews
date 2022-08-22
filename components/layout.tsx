@@ -1,9 +1,7 @@
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import NavLink from './navlink';
-import styles from '../styles/layout.module.css';
-import { Button, Col, Row, Typography } from 'antd';
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import NavLink from "./navlink";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -12,11 +10,11 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   return (
     <>
-      <nav className={styles.navbar}>
-        <Row justify="center" align="middle">
-          <Col xs={18} sm={9} lg={10}>
-            <Row align="middle" gutter={2}>
-              <Col xs={4} sm={3} lg={2}>
+      <nav className="shadow-gray-400 p-4 shadow">
+        <div className="flex items-center justify-center">
+          <div className="flex basis-2/3 flex-col sm:basis-1/3 lg:basis-5/12">
+            <div className="flex flex-row items-center gap-1">
+              <div className="flex basis-1/6 flex-col sm:basis-1/6 lg:basis-1/12">
                 <Link href="/">
                   <a>
                     <Image
@@ -25,22 +23,22 @@ export default function Layout({ children }: LayoutProps) {
                       height={70}
                       src="/dummy.png"
                       alt="logo"
-                      style={{ borderRadius: '50%' }}
+                      style={{ borderRadius: "50%" }}
                     />
                   </a>
                 </Link>
-              </Col>
-              <Col flex="auto">
+              </div>
+              <div className="flex">
                 <Link href="/">
                   <a>
-                    <span className={styles.name}>Reviews</span>
+                    <span className="text-3xl font-bold">Reviews</span>
                   </a>
                 </Link>
-              </Col>
-            </Row>
-          </Col>
-          <Col xs={0} sm={12} lg={11}>
-            <ul className={styles.navlinks}>
+              </div>
+            </div>
+          </div>
+          <div className="flex basis-0 sm:basis-1/2">
+            <ul className="m-0 flex list-none items-center gap-2 p-0 text-2xl">
               <li>
                 <NavLink exact href="/restaurants">
                   Restaurants
@@ -52,18 +50,13 @@ export default function Layout({ children }: LayoutProps) {
                 </NavLink>
               </li>
             </ul>
-          </Col>
-          <Col xs={0} sm={3}>
-            <Row justify="end">
-              <Button type="primary">Log In</Button>
-            </Row>
-          </Col>
-          <Col xs={6} sm={0}>
-            <Row justify="end">
-              <Typography>Menu</Typography>
-            </Row>
-          </Col>
-        </Row>
+          </div>
+          <div className="flex basis-0 flex-col sm:basis-1/6">
+            <div className="flex flex-row justify-end">
+              <button className="text-white bg-main-500">Log In</button>
+            </div>
+          </div>
+        </div>
       </nav>
       {children}
     </>
