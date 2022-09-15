@@ -1,7 +1,7 @@
-import { createClient, PostgrestError } from '@supabase/supabase-js';
-import { Restaurant } from '../types/restaurant';
+import { createClient, PostgrestError } from "@supabase/supabase-js";
+import { Restaurant } from "../types/restaurant";
 
-const RESTAURANTS_TABLE = 'restaurants';
+const RESTAURANTS_TABLE = "restaurants";
 
 export const getSupabase = () => {
   return createClient(
@@ -14,7 +14,7 @@ const supabase = getSupabase();
 
 export const supabaseQuery = async (
   table: string,
-  columns: string = '*',
+  columns: string = "*",
   count?: number
 ) => {
   try {
@@ -26,30 +26,30 @@ export const supabaseQuery = async (
   } catch (e) {
     console.error(e);
     if (isPostgrestError(e)) {
-      alert(e.message);
+      console.error(e.message);
     }
   }
 };
 
 export const isPostgrestError = (error: any): error is PostgrestError => {
   return (
-    'message' in error &&
-    'details' in error &&
-    'hint' in error &&
-    'code' in error
+    "message" in error &&
+    "details" in error &&
+    "hint" in error &&
+    "code" in error
   );
 };
 
 export const getAllRestaurants = () => {
-  return supabaseQuery('restaurants');
+  return supabaseQuery("restaurants");
 };
 
 export const getAllRestaurantReviews = () => {
-  return supabaseQuery('restaurant_reviews');
+  return supabaseQuery("restaurant_reviews");
 };
 
 export const getTopRestaurants = (count: number = 5) => {
-  return supabaseQuery('restaurants', '*', count);
+  return supabaseQuery("restaurants", "*", count);
 };
 
 // export const getTopRestaurantsBy = async (
@@ -95,7 +95,7 @@ export const deleteRestaurantById = async (restaurantId: number) => {
     const { data, error } = await supabase
       .from(RESTAURANTS_TABLE)
       .delete()
-      .eq('id', restaurantId);
+      .eq("id", restaurantId);
 
     if (error) throw error;
 

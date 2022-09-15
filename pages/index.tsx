@@ -1,12 +1,12 @@
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import Podium from '../components/podium';
-import TopSection from '../components/topSection';
-import { Restaurant } from '../types/restaurant';
-import { getTopRestaurants } from '../utils/supabase';
+import type { NextPage } from "next";
+import Head from "next/head";
+import Podium from "../components/podium";
+import TopSection from "../components/topSection";
+import { Restaurant } from "../types/restaurant";
+import { getTopRestaurants } from "../utils/supabase";
 
-const restaurantCarouselProperties = ['food_type', 'cost'];
-const dishCarouselProperties = ['taste', 'cost'];
+const restaurantCarouselProperties = ["food_type", "cost"];
+const dishCarouselProperties = ["taste", "cost"];
 
 interface HomeProps {
   topRestaurants: Array<Restaurant>;
