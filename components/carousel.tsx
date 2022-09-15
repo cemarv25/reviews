@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import useDeviceSize from "../hooks/useDeviceSize";
 import { Restaurant } from "../types/restaurant";
 
 function format(string: string) {
@@ -19,6 +20,7 @@ interface CarouselProps {
 
 export default function Carousel({ property, items, type }: CarouselProps) {
   const [currItems, setCurrItems] = useState<Array<Restaurant>>();
+  const [width, height] = useDeviceSize();
 
   const getItemsBetween = (item1: any, item2: any) => {
     const idx1 = items.indexOf(item1);
@@ -57,47 +59,54 @@ export default function Carousel({ property, items, type }: CarouselProps) {
     });
   };
 
-  // useEffect(() => {
-  //   let itemsQty: number;
-  //   if (screens.lg) {
-  //     itemsQty = 3;
-  //   } else if (screens.md) {
-  //     itemsQty = 2;
-  //   } else {
-  //     itemsQty = 1;
-  //   }
+  useEffect(() => {
+    let itemsQty: number;
+    if (width >= 1024) {
+      itemsQty = 3;
+    } else if (width >= 768) {
+      itemsQty = 2;
+    } else {
+      itemsQty = 1;
+    }
 
-  //   setCurrItems(items.slice(0, itemsQty));
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [screens]);
+    setCurrItems(items.slice(0, itemsQty));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [width, height]);
 
   return (
     <>
       <div className="flex flex-row">
-        <div className="">
+        <div className="text-xl">
           <h4>{format(property)}</h4>
         </div>
       </div>
-      <div className="flex flex-row items-center justify-center gap-4">
-        <button onClick={() => handleArrowClick("left")}>
+      <div className="relative flex h-[15vh] flex-row items-center justify-center gap-4">
+        <button
+          className="transition-scale absolute left-10 font-bold duration-300 hover:scale-150"
+          onClick={() => handleArrowClick("left")}
+        >
           <span>{"<"}</span>
         </button>
         {currItems &&
           currItems.map((item, idx) => (
             <div
-              key={idx}
-              className="flex basis-1/2 flex-col md:basis-1/3 lg:basis-1/4"
+              key={item.id}
+              id={item.id}
+              className="flex h-full basis-1/2 flex-col items-center md:basis-1/3 lg:basis-1/4"
             >
-              <div id={item.id} className="hover:shadow-lg">
+              <button className="flex h-full flex-col justify-center rounded-lg border border-solid border-red-600 p-4 text-left transition-shadow duration-300 hover:shadow-lg">
                 <h5>{item.name}</h5>
                 <p>Grade: {item.grade}</p>
                 <p>Location: {item.description}</p>
-              </div>
+              </button>
             </div>
           ))}
-        <div onClick={() => handleArrowClick("right")}>
+        <button
+          className="transition-scale absolute right-10 font-bold duration-300 hover:scale-150"
+          onClick={() => handleArrowClick("right")}
+        >
           <span>{">"}</span>
-        </div>
+        </button>
       </div>
     </>
   );

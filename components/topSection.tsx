@@ -17,18 +17,20 @@ export default function TopSection({
   items,
 }: TopSectionProps) {
   return (
-    <div className="flex flex-col">
-      <div className="flex flex-row items-center justify-center">
+    <div className="flex flex-col px-[5vw] py-8">
+      <div className="relative flex flex-row items-center justify-center text-center">
         <div className="flex flex-col">
-          <h3>Top {capitalizeFirstLetter(title)} by:</h3>
+          <h3 className="text-2xl font-semibold">
+            Top {capitalizeFirstLetter(title)} by:
+          </h3>
         </div>
-        <div className="flex flex-col">
+        <div className="absolute bottom-1/2 right-8 translate-y-1/2 text-xs">
           <Link href={`/${title}`}>
             <a>See all...</a>
           </Link>
         </div>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col px-[10vw]">
         {properties.map((property, idx) => (
           <Carousel
             key={idx}
