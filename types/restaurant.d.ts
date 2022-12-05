@@ -5,4 +5,6 @@ export type Restaurant = {
   location: object;
   name: string;
   type: string;
+  food_type: string;
+  grade: number;
 };
